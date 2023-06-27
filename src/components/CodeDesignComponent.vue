@@ -15,6 +15,7 @@
     <DesignCustomComponent
         :codes="codes"
         v-if="activeTab === 1"
+        :key="componentKey"
         :current-code="code"
     />
 
@@ -34,7 +35,8 @@ export default {
     return {
       tabs: PersonalContent.tabsDesign,
       activeTab: 1,
-      currentCode: 1
+      currentCode: 1,
+      componentKey: 0
     }
   },
   props: ['codes'],
@@ -57,6 +59,11 @@ export default {
     eventBus.$on('getCurrentCode', value => {
       this.currentCode = value
     })
+  },
+  watch: {
+    currentCode() {
+      this.componentKey += 1
+    }
   }
 }
 </script>

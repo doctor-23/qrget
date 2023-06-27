@@ -10,27 +10,19 @@
       </span>
 
       <ul class="menu-list">
-        <li class="active">
-          Мои QR-коды
+
+        <li
+            v-for="( menu, index ) in content.menuList"
+            :key="menu.text"
+            :class="{
+              active: activeMenu === index,
+              disabled: menu.disabling && !content.payed
+            }"
+            @click="updateActiveMenu(index)"
+        >
+          {{ menu.text }}
         </li>
-        <li>
-          Дизайн QR
-        </li>
-        <li class="disabled">
-          Контент
-        </li>
-        <li class="disabled">
-          Печать
-        </li>
-        <li class="disabled">
-          Сообщения
-        </li>
-        <li>
-          Оплата
-        </li>
-        <li>
-          Поддержка
-        </li>
+
       </ul>
     </div>
   </aside>
@@ -40,7 +32,14 @@
 import SvgSpriteAtom from "@/atoms/SvgSpriteAtom";
 
 export default {
-  components: {SvgSpriteAtom}
+  props: ['content', 'activeMenu'],
+  components: { SvgSpriteAtom },
+  methods: {
+    updateActiveMenu(index) {
+      this.$emit('updateActiveMenu', index)
+    }
+  }
+
 }
 </script>
 

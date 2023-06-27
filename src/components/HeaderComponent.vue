@@ -5,7 +5,7 @@
         <img :src="header.logo" alt="LOGO">
       </a>
 
-      <div class="scroll-wrapper show">
+      <div class="scroll-wrapper" :class="{'show': isOpen}">
         <div class="scroll-container">
           <div class="scrolling-content">
 
@@ -30,13 +30,16 @@
               </a>
             </div>
 
-            <SocialMolecule class-name="socials"/>
+            <SocialMolecule class-name="socials--header"/>
 
           </div>
         </div>
       </div>
 
-      <HamburgerMolecule />
+      <HamburgerMolecule
+          :is-open="isOpen"
+          @toggleMenu="toggleMenu"
+      />
     </div>
   </header>
 </template>
@@ -49,17 +52,32 @@ import MenuItemAtom from "@/atoms/MenuItemAtom";
 import header from "@/constants/header";
 
 export default {
-  name: "HeaderComponent",
   data() {
     return {
       header,
+      isOpen: false
     };
   },
-  components: {SocialMolecule, HamburgerMolecule, MenuItemAtom}
+  components: {
+    SocialMolecule,
+    HamburgerMolecule,
+    MenuItemAtom
+  },
+  methods: {
+    toggleMenu(value) {
+      this.isOpen = value;
+
+      if (this.isOpen) {
+        document.body.classList.add('no-scroll');
+      } else {
+        document.body.classList.remove('no-scroll');
+      }
+    }
+  }
 }
 </script>
 
-<style lang="scss" scoped>
+<style scoped lang="scss">
 .header {
   width: 100%;
   height: max-content;
@@ -122,14 +140,6 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-
-  .socials {
-    display: none;
-
-    @include tablet {
-      display: flex;
-    }
-  }
 
   @include tablet {
     flex-direction: column;
@@ -209,6 +219,14 @@ export default {
       background-color: var(--green);
       border-color: var(--green);
     }
+  }
+}
+
+.socials--header {
+  display: none;
+
+  @include tablet {
+    display: flex;
   }
 }
 

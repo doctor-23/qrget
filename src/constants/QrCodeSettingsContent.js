@@ -1,28 +1,41 @@
+import square from "@/assets/img/qr-code-styling(1).png";
+import dots from "@/assets/img/qr-code-styling(2).png";
+import rounded from "@/assets/img/qr-code-styling(3).png";
+import extra_rounded from "@/assets/img/qr-code-styling(4).png";
+import classy from "@/assets/img/qr-code-styling(5).png";
+import classy_rounded from "@/assets/img/qr-code-styling(6).png";
+
 export default {
     borders: [
         {
             title: "Квадрат",
-            value: "square"
+            value: "square",
+            image: square
         },
         {
             title: "Точки",
-            value: "dots"
+            value: "dots",
+            image: dots
         },
         {
             title: "Закругленный",
-            value: "rounded"
+            value: "rounded",
+            image: rounded
         },
         {
             title: "Сильно закругленный",
-            value: "extra-rounded"
+            value: "extra-rounded",
+            image: extra_rounded
         },
         {
             title: "Классический",
-            value: "classy"
+            value: "classy",
+            image: classy
         },
         {
             title: "Классический закругленный",
-            value: "classy-rounded"
+            value: "classy-rounded",
+            image: classy_rounded
         },
     ],
     border_size: [
@@ -37,19 +50,7 @@ export default {
         {
             title: "300x300",
             value: 300
-        },
-        {
-            title: "400x400",
-            value: 400
-        },
-        {
-            title: "500x500",
-            value: 500
-        },
-        {
-            title: "600x600",
-            value: 600
-        },
+        }
     ],
     radius: [
         {

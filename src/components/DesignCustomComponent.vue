@@ -9,11 +9,17 @@
 
     <div class="left">
       <div class="image">
-        <img
-            :src="currentCode.image"
-            alt="QR Code"
-            :style="{borderRadius: `${selectedRadius}px`}"
-        >
+        <!--        <img-->
+        <!--            :src="currentCode.image"-->
+        <!--            alt="QR Code"-->
+        <!--            :style="{borderRadius: `${selectedRadius}px`}"-->
+        <!--        >-->
+        <QrGeneratorMolecule
+            :options="options"
+            :key="componentKey"
+            :radius="selectedRadius"
+        />
+
       </div>
     </div>
 
@@ -29,25 +35,20 @@
               class-name="border-select"
               :options="borders"
               :current-value="border"
+              :key="componentKey"
               event-bus-event="getCurrentBorder"
           />
         </div>
 
         <div class="borders form-row">
-          <div class="border-item">
-            <img src="#" alt="Рамка">
-          </div>
-          <div class="border-item">
-            <img src="#" alt="Рамка">
-          </div>
-          <div class="border-item">
-            <img src="#" alt="Рамка">
-          </div>
-          <div class="border-item">
-            <img src="#" alt="Рамка">
-          </div>
-          <div class="border-item">
-            <img src="#" alt="Рамка">
+          <div
+              class="border-item"
+              :class="{active: border.value === item.value}"
+              v-for="item in borders"
+              :key="item.value"
+              @click="updateBorderValue(item.value)"
+          >
+            <img :src="item.image" :alt="item.value">
           </div>
         </div>
 
@@ -60,7 +61,7 @@
               name="code_caption"
               class="caption-text">
 Я потерялся. Если вы нашли меня, отсканируйте и свяжитесь с владельцем.
-                                </textarea>
+          </textarea>
         </div>
 
         <div class="size form-row">
@@ -173,94 +174,38 @@
       </div>
 
     </div>
-
-    <div id="qr-code" ref="qrCode"> </div>
   </div>
 </template>
 
 <script>
 
 import CodeChoiceMolecule from "@/molecules/CodeChoiceMolecule";
+import QrGeneratorMolecule from "@/molecules/QrGeneratorMolecule";
 import SelectMolecule from "@/molecules/SelectMolecule";
 import SvgSpriteAtom from "@/atoms/SvgSpriteAtom";
 import QrCodeSettingsContent from "@/constants/QrCodeSettingsContent";
 import eventBus from "@/eventBus";
-import QRCodeStyling, {
-  DrawType,
-  TypeNumber,
-  Mode,
-  ErrorCorrectionLevel,
-  DotType,
-  CornerSquareType,
-  CornerDotType,
-  Extension
-} from 'qr-code-styling';
 
 export default {
   data() {
-    // const options = {
-    //   width: this.selectedSize,
-    //   height: this.selectedSize,
-    //   data: 'http://qr-code-styling.com',
-    //   image: this.file,
-    //   imageOptions: {
-    //     hideBackgroundDots: true,
-    //     imageSize: 0.6,
-    //     margin: 0
-    //   },
-    //   dotsOptions: {
-    //     type: this.selectedBorder,
-    //     color: this.color,
-    //     gradient: null
-    //   },
-    //   cornersSquareOptions: {
-    //     type: this.selectedBorder,
-    //     color: this.color,
-    //   },
-    //   backgroundOptions: {
-    //     color: this.color
-    //   }
-    // }
-    const options = {
-      width: 100,
-      height: 100,
-      data: 'http://qr-code-styling.com',
-      image: 'https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg',
-      imageOptions: {
-        hideBackgroundDots: true,
-        imageSize: 0.6,
-        margin: 0
-      },
-      dotsOptions: {
-        type: 'square',
-        color: '#6A4B99',
-        gradient: null
-      },
-      cornersSquareOptions: {
-        type: 'square',
-        color: '#6A4B99',
-      },
-      backgroundOptions: {
-        color: '#6A4B99'
-      }
-    }
     return {
       QrCodeSettingsContent,
       borders: QrCodeSettingsContent.borders,
       sizes: QrCodeSettingsContent.border_size,
       radius: QrCodeSettingsContent.radius,
-      selectedBorder: 'square',
-      selectedSize: 100,
-      selectedRadius: 0,
-      color: '#6A4B99',
-      file: null,
-      qrCode: new QRCodeStyling(options)
+      selectedBorder: this.currentCode.border,
+      selectedSize: this.currentCode.size,
+      selectedRadius: this.currentCode.radius,
+      color: this.currentCode.color,
+      file: this.currentCode.file,
+      componentKey: 0
     }
   },
   props: ['codes', 'currentCode'],
   components: {
     CodeChoiceMolecule,
     SelectMolecule,
+    QrGeneratorMolecule,
     SvgSpriteAtom
   },
   methods: {
@@ -270,10 +215,15 @@ export default {
 
       if (file) {
         var reader = new FileReader();
-        reader.onload = (e) => { this.file = e.target.result };
+        reader.onload = (e) => {
+          this.file = e.target.result
+        };
         reader.readAsDataURL(file);
       }
     },
+    updateBorderValue(border) {
+      this.selectedBorder = border;
+    }
   },
   computed: {
     border() {
@@ -285,6 +235,32 @@ export default {
     borderRadius() {
       return this.radius.find(item => item.value === this.selectedRadius)
     },
+    options() {
+      return {
+        width: this.selectedSize,
+        height: this.selectedSize,
+        type: 'canvas',
+        data: 'http://qr-code-styling.com',
+        image: this.file,
+        imageOptions: {
+          hideBackgroundDots: true,
+          imageSize: 0.6,
+          margin: 0
+        },
+        dotsOptions: {
+          type: this.selectedBorder,
+          color: '#000',
+          gradient: null
+        },
+        cornersSquareOptions: {
+          type: this.selectedBorder,
+          color: '#000',
+        },
+        backgroundOptions: {
+          color: this.color
+        }
+      }
+    }
   },
   created() {
     eventBus.$on('getCurrentBorder', value => {
@@ -296,8 +272,15 @@ export default {
     eventBus.$on('getCurrentRadius', value => {
       this.selectedRadius = value;
     });
-    this.qrCode.append(document.getElementById("qr-code"));
   },
+  watch: {
+    options() {
+      this.componentKey += 1;
+    },
+    selectedBorder() {
+      this.componentKey += 1;
+    }
+  }
 }
 </script>
 
@@ -463,6 +446,10 @@ export default {
   @include tablet {
     width: 56px;
     height: 56px;
+  }
+
+  &.active {
+    border-width: 3px;
   }
 
   img {

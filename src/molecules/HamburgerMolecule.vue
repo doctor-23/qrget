@@ -1,5 +1,9 @@
 <template>
-  <div class="hamburger">
+  <div
+      class="hamburger"
+      :class="{'open': isOpen}"
+      @click="$emit('toggleMenu', !isOpen)"
+  >
     <div class="hamburger-wrap">
       <div class="hamburger-ico line-1"></div>
       <div class="hamburger-ico line-2"></div>
@@ -10,7 +14,7 @@
 
 <script>
 export default {
-  name: "HamburgerMolecule"
+  props: ['isOpen']
 }
 </script>
 

@@ -1,12 +1,22 @@
 <template>
   <section class="personal">
     <div class="container">
-      <PersonalNavMenu />
+      <PersonalNavMenu
+          :content="content"
+          :active-menu="activeMenu"
+          @updateActiveMenu="onUpdateActiveMenu"
+      />
 
       <div class="personal__content">
-<!--        <MyCodesComponent :codes="codes" />-->
+        <MyCodesComponent
+            :codes="codes"
+            v-if="activeMenu === 0"
+        />
 
-        <CodeDesignComponent :codes="codes" />
+        <CodeDesignComponent
+            :codes="codes"
+            v-if="activeMenu === 1"
+        />
 
 <!--        <div class="code-content">-->
 <!--          <div class="choice-code">-->
@@ -82,11 +92,21 @@ import MyCodesComponent from "@/components/MyCodesComponent";
 import CodeDesignComponent from "@/components/CodeDesignComponent";
 
 export default {
-  props: ['codes'],
+  data() {
+    return {
+      activeMenu: 1
+    }
+  },
+  props: ['codes', 'content'],
   components: {
     PersonalNavMenu,
     MyCodesComponent,
     CodeDesignComponent
+  },
+  methods: {
+    onUpdateActiveMenu(index) {
+      this.activeMenu = index;
+    }
   }
 }
 </script>

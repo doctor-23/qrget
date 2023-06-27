@@ -1,12 +1,20 @@
 <template>
   <ul class="socials" :class="className">
-    <li v-for="social in socials" key="social.name">
-      <a :href="social.link" target="_blank">
-        <SvgSprite
+    <li
+        v-for="social in socials"
+        :key="social.name"
+    >
+      <a
+          :href="social.link"
+          target="_blank"
+      >
+
+        <SvgSpriteAtom
             :name="social.name"
-            :width="social.width"
-            :height="social.height"
+            :size-x="social.width"
+            :size-y="social.height"
         />
+
       </a>
     </li>
   </ul>
@@ -14,7 +22,7 @@
 
 <script>
 
-import SvgSprite from "@/atoms/SvgSpriteAtom";
+import SvgSpriteAtom from "@/atoms/SvgSpriteAtom";
 import socials from "@/constants/socials";
 
 export default {
@@ -24,11 +32,11 @@ export default {
     }
   },
   props: ['className'],
-  components: { SvgSprite }
+  components: { SvgSpriteAtom }
 }
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 .socials {
   display: flex;
   gap: 25px;

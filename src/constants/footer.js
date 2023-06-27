@@ -10,7 +10,7 @@ export default {
         },
         {
             name: "Пользовательское соглашение",
-            link: "tariff.html",
+            link: "policy.html",
         },
         {
             name: "Юридическая информация",
@@ -18,33 +18,33 @@ export default {
         },
         {
             name: "Договор-оферта",
-            link: "partners.html",
+            link: "oferta.html",
         },
         {
             name: "Цены и тарифы",
-            link: "partners.html",
+            link: "tariffs.html",
         }
     ],
     menu_two: [
         {
             name: "Задать вопрос",
-            link: "tariff.html",
+            link: "#",
         },
         {
             name: "Канал в Telegram",
-            link: "partners.html",
+            link: "https://t.me/",
         },
         {
             name: "Инструкции",
-            link: "partners.html",
+            link: "instruction.html",
         },
         {
             name: "Вопрос ответ",
-            link: "partners.html",
+            link: "faq.html",
         },
         {
             name: "Блог",
-            link: "partners.html",
+            link: "blog.html",
         }
     ],
     sticker: sticker

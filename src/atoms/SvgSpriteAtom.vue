@@ -1,9 +1,9 @@
 <template>
   <svg
-      :width="{ sizeX }"
-      :height="{ sizeY }"
+      :width="sizeX"
+      :height="sizeY"
       class="svg-ico"
-      :class="{ className }"
+      :class="className"
       role="img">
     <use :xlink:href="sprite"></use>
   </svg>
@@ -14,7 +14,24 @@
 import spriteFile from '@/assets/img/icons/sprite.svg';
 
 export default {
-  props: ['name', 'sizeX', 'sizeY', 'className'],
+  props: {
+    name: {
+      type: String,
+      required: true,
+      default: ''
+    },
+    sizeX: {
+      type: Number,
+      default: 0
+    },
+    sizeY: {
+      type: Number,
+      default: 0
+    },
+    className: {
+      type: String
+    }
+  },
   data() {
     return {
       sprite: `${spriteFile}#${this.name}`,

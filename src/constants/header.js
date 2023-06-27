@@ -5,15 +5,15 @@ export default {
     menu: [
         {
             name: "О платформе",
-            link: "/",
+            link: "/#/",
         },
         {
             name: "Тарифы",
-            link: "/tariff/",
+            link: "/#/tariff/",
         },
         {
             name: "Партнерам",
-            link: "/partners/",
+            link: "/#/partners/",
         },
     ],
     btnAuth: 'Вход',

@@ -4,10 +4,10 @@
 
       <div class="col col_first">
         <a href="/" class="logo">
-          <img :src="footer.logo" alt="LOGO">
+          <img :src="content.logo" alt="LOGO">
         </a>
 
-      <SocialMolecule class-name="socials" />
+      <SocialMolecule class-name="footer-socials" />
       </div>
 
       <div class="col col_second">
@@ -19,7 +19,7 @@
           <ul class="nav-list">
 
             <MenuItemAtom
-                v-for="item in footer.menu_one"
+                v-for="item in content.menu_one"
                 :key="item.link"
                 :link="item.link"
                 :children="item.name"
@@ -38,7 +38,7 @@
           <ul class="nav-list">
 
             <MenuItemAtom
-                v-for="item in footer.menu_two"
+                v-for="item in content.menu_two"
                 :key="item.link"
                 :link="item.link"
                 :children="item.name"
@@ -49,7 +49,7 @@
       </div>
 
       <div class="sticker">
-        <img :src="footer.sticker" alt="Стикер">
+        <img :src="content.sticker" alt="Стикер">
       </div>
 
     </div>
@@ -65,10 +65,13 @@ export default {
   name: "FooterComponent",
   data() {
     return {
-      footer
+      content: footer
     }
   },
-  components: { SocialMolecule, MenuItemAtom }
+  components: {
+    SocialMolecule,
+    MenuItemAtom
+  }
 }
 </script>
 
